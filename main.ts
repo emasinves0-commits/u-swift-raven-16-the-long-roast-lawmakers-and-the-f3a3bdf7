@@ -3,9 +3,9 @@ import * as path from "node:path";
 
 const OUTPUT_DIR = "/output";
 const OUTPUT_FILE = "entry.txt";
-const LINE = "Senator Hale spent six months writing a 400-page bill to regulate artificial intelligence and chaired three hearings on it, then called his intern into the office, held up his laptop, and asked her to explain why the words 'Save As PDF' were greyed out, as if the button itself were part of the conspiracy.";
+const LINE = "Senator Vane swore the AI Act was law, yet the signed bill remains trapped in FINAL_v9.docx, which his own regulation demands be filed as a PDF.";
 
-function checkedLine(text: string): string {
+function validateEntry(text: string): string {
   const line = text.trim();
   if (line.length < 1 || line.length > 320) {
     throw new Error("entry must be 1-320 characters");
@@ -13,7 +13,10 @@ function checkedLine(text: string): string {
   return line;
 }
 
-const entry = checkedLine(LINE);
+function main(): void {
+  const entry = validateEntry(LINE);
+  fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+  fs.writeFileSync(path.join(OUTPUT_DIR, OUTPUT_FILE), entry);
+}
 
-fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-fs.writeFileSync(path.join(OUTPUT_DIR, OUTPUT_FILE), entry);
+main();
